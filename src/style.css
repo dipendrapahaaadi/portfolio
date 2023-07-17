@@ -1,0 +1,67 @@
+.app-container {
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: azure;
+}
+
+.title {
+    text-align: center;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.submit-btn {
+    display: block;
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #0080ff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.section-title {
+    margin-top: 20px;
+}
+
+.net-profit-loss {
+    font-weight: bold;
+}
+
+.coin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.coin-table th, .coin-table td{
+    border: 1px solid #ddd;
+    padding: 5px;
+}
+
+.coin-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.clear-portfolio-btn {
+    display: block;
+    margin: 10px 0;
+    padding: 5px 10px;
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
