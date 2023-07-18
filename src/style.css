@@ -1,67 +1,129 @@
-.app-container {
-    width: 600px;
-    margin: 0 auto;
-    padding: 20px;
+
+body, h1, h2, h3, h4, h5, h6, p, ul, li, button {
+    margin: 0;
+    padding: 0;
+}
+
+body {
     font-family: Arial, sans-serif;
-    background-color: azure;
+    background-color: #f2f2f2;
+}
+
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
 }
 
 .title {
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.form-label, .form-input {
+    display: block;
+    margin-bottom: 10px;
 }
 
 .form-label {
-    display: block;
-    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
 .form-input {
     width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .submit-btn {
-    display: block;
-    margin: 10px 0;
-    padding: 5px 10px;
-    background-color: #0080ff;
+    background-color: #007bff;
     color: #fff;
     border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
 }
 
 .section-title {
-    margin-top: 20px;
-}
-
-.net-profit-loss {
+    margin-top: 30px;
+    font-size: 20px;
     font-weight: bold;
+    color: #333;
 }
 
 .coin-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.coin-table th, .coin-table td{
-    border: 1px solid #ddd;
-    padding: 5px;
+.coin-table th, .coin-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
 }
 
 .coin-table th {
-    background-color: #f2f2f2;
-    text-align: left;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.net-profit-loss {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+}
+
+.edit-btn, .cancel-btn, .save-changes-btn, .clear-portfolio-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.edit-btn:hover, .cancel-btn:hover, .save-changes-btn:hover, .clear-portfolio-btn:hover {
+    background-color: #0056b3;
+}
+
+.edit-form-container {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.edit-form-container h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
 }
 
 .clear-portfolio-btn {
-    display: block;
-    margin: 10px 0;
-    padding: 5px 10px;
-    background-color: #ff0000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+    margin-top: 20px;
+    background-color: #dc3545;
 }
 
+.clear-portfolio-btn:hover {
+    background-color: #c82333;
+}

@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import fetchMarketPrice from "./fetchMarketPrice";
 
 function App() {
 
     const [netProfitLoss, setNetProfitLoss] = useState(0);
     const [coins, setCoins] = useState([]);
+    const [editIndex, setEditIndex] = useState();
+    const [editCoin, setEditCoin] = useState(null);
+    const [showEditForm, setShowEditForm] = useState(false);
 
-    const fetchMarketPrice = async (symbol) => {
-        try {
-            const response = await fetch(
-                `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${symbol}`
-            );
-            console.log(response);
-            const data = await response.json();
-            return parseFloat(data[0].current_price);
-        } catch (error) {
-            const fetchMarketPriceError = console.error(`Error fetching market price for ${symbol}:`, error);
-            return fetchMarketPriceError;
-        }
-    };
+    <fetchMarketPrice />
 
     async function handleSubmit() {
 
@@ -26,7 +18,7 @@ function App() {
         const quantity = parseFloat(document.getElementById('quantity').value);
         const purchasedPrice = parseFloat(document.getElementById("purchasedPrice").value);
 
-       
+
 
         const currentPrice = (await fetchMarketPrice(coin)).toFixed(1);
 
@@ -51,14 +43,64 @@ function App() {
         setNetProfitLoss((prevNetProfitLoss) => prevNetProfitLoss + calculatedProfitLoss);
 
 
+        localStorage.setItem("portfolioCoins", JSON.stringify([...coins, newCoin]));
+
+    };
+
+
+    useEffect(() => {
+        const storedCoins = localStorage.getItem("portfolioCoins");
+        if (storedCoins) {
+            setCoins(JSON.parse(storedCoins));
+        }
+    }, [])
+
+    const handleClearPortfolio = () => {
+        setCoins([]);
+        setNetProfitLoss(0);
+        localStorage.removeItem('portfolioCoins');
+    };
+
+    const handleEdit = (index) => {
+        const coinToEdit = coins[index];
+        setEditCoin(coinToEdit);
+        setEditIndex(index);
+        setShowEditForm(true);
     }
+
+    const handleEditSubmit = (e) => {
+        e.preventDefault();
+
+        const updatedCoins = coins.map((coin, index) => {
+            if (index === editIndex) {
+                return {
+                    ...editCoin,
+                    calculatedProfitLoss:
+                        editCoin.quantity * editCoin.currentPrice - editCoin.quantity * editCoin.purchasedPrice,
+                    investmentValue: editCoin.quantity * editCoin.purchasedPrice,
+                    currentValue: editCoin.quantity * editCoin.currentPrice,
+                };
+            }
+            return coin;
+        });
+
+        setCoins(updatedCoins);
+
+        const totalProfitLoss = updatedCoins.reduce((total, coin) => total + coin.calculatedProfitLoss, 0);
+        setNetProfitLoss(totalProfitLoss);
+
+        localStorage.setItem("portfolioCoins", JSON.stringify(updatedCoins));
+
+        setShowEditForm(false);
+    };
+
 
 
     return (
         <div className="app-container">
             <h1 className="title">Portfolio Tracker</h1>
 
-            <label htmlFor="coin"  className="form-label">Coin: </label>
+            <label htmlFor="coin" className="form-label">Coin: </label>
             <select name="coin" id="coin" className="form-input">
                 <option value="bitcoin">BTC</option>
                 <option value="ethereum">ETH</option>
@@ -66,11 +108,11 @@ function App() {
             <br />
 
             <label htmlFor="quantity" className="form-label">Quantity: </label>
-            <input type="number" name="quantity" id="quantity" className="form-input"/>
+            <input type="number" name="quantity" id="quantity" className="form-input" />
             <br />
 
             <label htmlFor="purchasedPrice" className="form-label">Purchased Price: </label>
-            <input type="number" name="purchasedPrice" id="purchasedPrice" className="form-input"/>
+            <input type="number" name="purchasedPrice" id="purchasedPrice" className="form-input" />
             <br />
 
             <button type="submit" onClick={handleSubmit} className="submit-btn">Add coin</button>
@@ -88,6 +130,7 @@ function App() {
                         <th>Investment Value</th>
                         <th>Current Value</th>
                         <th>Profit/Loss</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -100,13 +143,56 @@ function App() {
                             <td>{coin.investmentValue}</td>
                             <td>{coin.currentValue}</td>
                             <td>{coin.calculatedProfitLoss.toFixed(1)}</td>
+                            <td><button onClick={() => handleEdit(index)} className="edit-btn">Edit</button></td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <button className="clear-portfolio-btn">Clear Portfolio</button>
+
+            {showEditForm && editCoin && (
+                <div className="edit-form-container">
+                    <h2>Edit Coin</h2>
+                    <form onSubmit={handleEditSubmit}>
+                        <label htmlFor="edit-quantity">Quantity: </label>
+                        <input
+                            type="number"
+                            name="edit-quantity"
+                            id="edit-quantity"
+                            className="form-input"
+                            value={editCoin.quantity}
+                            onChange={(e) =>
+                                setEditCoin({ ...editCoin, quantity: parseFloat(e.target.value) })
+                            }
+                        />
+                        <br />
+
+                        <label htmlFor="edit-purchasedPrice">Purchased Price: </label>
+                        <input
+                            type="number"
+                            name="edit-purchasedPrice"
+                            id="edit-purchasedPrice"
+                            className="form-input"
+                            value={editCoin.purchasedPrice}
+                            onChange={(e) =>
+                                setEditCoin({ ...editCoin, purchasedPrice: parseFloat(e.target.value) })
+                            }
+                        />
+                        <br />
+
+                        <button type="submit" className="save-changes-btn">
+                            Save Changes
+                        </button>
+                        <button onClick={() => setShowEditForm(false)} className="cancel-btn">
+                            Cancel
+                        </button>
+                    </form>;
+                </div>
+            )}
+
+
+            <button className="clear-portfolio-btn" onClick={handleClearPortfolio}>Clear Portfolio</button>
         </div>
     );
-}
+};
 
 export default App;
