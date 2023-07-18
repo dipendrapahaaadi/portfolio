@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import fetchMarketPrice from "./fetchMarketPrice";
 
-function App() {
+function PortfolioTracker() {
 
     const [netProfitLoss, setNetProfitLoss] = useState(0);
     const [coins, setCoins] = useState([]);
@@ -185,7 +185,7 @@ function App() {
                         <button onClick={() => setShowEditForm(false)} className="cancel-btn">
                             Cancel
                         </button>
-                    </form>;
+                    </form>
                 </div>
             )}
 
@@ -195,4 +195,4 @@ function App() {
     );
 };
 
-export default App;
+export default PortfolioTracker;

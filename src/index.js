@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import PortfolioTracker from "./PortfolioTracker"; 
 import "./style.css";
+import HomePage from "./HomePage";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<HomePage />, document.getElementById("root"));
